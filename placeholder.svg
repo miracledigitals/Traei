@@ -1,0 +1,13 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+ <rect width="100%" height="100%" fill="#f8f9fa"/>
+ <text x="50%" y="45%" font-family="sans-serif" font-size="20" text-anchor="middle" fill="#6c757d">
+   I couldn't download the photo.
+ </text>
+ <text x="50%" y="55%" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#6c757d">
+   Please save your image as "photo.jpg"
+ </text>
+ <text x="50%" y="62%" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#6c757d">
+   in the folder: Documents/Traei
+ </text>
+ <rect x="20" y="20" width="560" height="360" fill="none" stroke="#dee2e6" stroke-width="4" stroke-dasharray="10 10"/>
+</svg>
