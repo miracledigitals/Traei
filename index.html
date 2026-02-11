@@ -17,8 +17,6 @@
 <ul id="nav-list" class="nav-list">
 <li><a href="#home">Home</a></li>
 <li><a href="#gallery">Gallery</a></li>
-<li><a href="#media">Message</a></li>
-<li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 </header>
@@ -36,14 +34,13 @@
 <section id="gallery" class="section">
 <div class="section-header">
 <h2>Moments that matter</h2>
-<p>Photos that mean a lot to us. You can click, drag, or paste images.</p>
+<p>A memory I hold dear.</p>
 </div>
-<div class="uploader">
-<label for="photoInput">Add photos</label>
-<input id="photoInput" type="file" accept="image/*" multiple aria-describedby="photoHelp">
-<div id="photoHelp" class="assistive">Select one or more images to show in the gallery.</div>
+<div id="galleryGrid" class="gallery single-photo" aria-live="polite">
+<figure>
+<img src="https://i.ibb.co/6R22z0C/photo.jpg" alt="A happy memory of us smiling together with party balloons in the background" loading="lazy">
+</figure>
 </div>
-<div id="galleryGrid" class="gallery" aria-live="polite"></div>
 </section>
 </main>
 <footer class="site-footer">
