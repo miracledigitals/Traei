@@ -59,74 +59,42 @@ if (photoInput && galleryGrid) {
     });
   });
 }
-const avInput = document.getElementById("avInput");
-const avHolder = document.getElementById("avHolder");
-if (avInput && avHolder) {
-  avInput.addEventListener("change", () => {
-    avHolder.innerHTML = "";
-    const file = avInput.files && avInput.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    if (file.type.startsWith("video")) {
-      const v = document.createElement("video");
-      v.src = url;
-      v.controls = true;
-      v.playsInline = true;
-      avHolder.appendChild(v);
-    } else {
-      const a = document.createElement("audio");
-      a.src = url;
-      a.controls = true;
-      avHolder.appendChild(a);
-    }
+function addImageBlob(blob, name = "Shared photo") {
+  if (!galleryGrid) return;
+  const url = URL.createObjectURL(blob);
+  const fig = document.createElement("figure");
+  const img = document.createElement("img");
+  img.src = url;
+  img.loading = "lazy";
+  img.alt = name;
+  fig.appendChild(img);
+  galleryGrid.appendChild(fig);
+}
+if (galleryGrid) {
+  galleryGrid.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+  galleryGrid.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer?.files || []);
+    files.filter(f => f.type.startsWith("image")).forEach(f => addImageBlob(f, f.name));
+    toast(files.length ? "Photo added" : "No image found");
+  });
+  document.addEventListener("paste", (e) => {
+    const items = Array.from(e.clipboardData?.items || []);
+    let added = 0;
+    items.forEach(it => {
+      if (it.type.startsWith("image")) {
+        const file = it.getAsFile();
+        if (file) {
+          addImageBlob(file, file.name);
+          added++;
+        }
+      }
+    });
+    if (added) toast("Photo pasted");
   });
 }
 // private link controls removed
 // private link logic removed
-const contactForm = document.getElementById("contactForm");
-const copyBtn = document.getElementById("copyBtn");
-const formFeedback = document.getElementById("formFeedback");
-const contactEmail = "";
-function buildMailto(name, message) {
-  const subject = "From my heart";
-  const body = (name ? name + ":\n\n" : "") + message;
-  return "mailto:" + contactEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-}
-if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const message = document.getElementById("message").value.trim();
-    if (!message) {
-      formFeedback.textContent = "Please write a message.";
-      return;
-    }
-    if (contactEmail) {
-      location.href = buildMailto(name, message);
-      formFeedback.textContent = "Opening your mail app";
-    } else {
-      navigator.clipboard.writeText((name ? name + ":\n\n" : "") + message).then(() => {
-        formFeedback.textContent = "Message copied";
-        toast("Message copied");
-      }, () => {
-        formFeedback.textContent = "Copy failed";
-      });
-    }
-  });
-}
-if (copyBtn) {
-  copyBtn.addEventListener("click", () => {
-    const name = document.getElementById("name").value.trim();
-    const message = document.getElementById("message").value.trim();
-    if (!message) {
-      formFeedback.textContent = "Please write a message.";
-      return;
-    }
-    navigator.clipboard.writeText((name ? name + ":\n\n" : "") + message).then(() => {
-      formFeedback.textContent = "Message copied";
-      toast("Message copied");
-    }, () => {
-      formFeedback.textContent = "Copy failed";
-    });
-  });
-}
+// contact section removed
