@@ -14,8 +14,9 @@ if (navToggle && navList) {
 }
 const gate = document.getElementById("gate");
 const hasKey = qs.has("key");
+const bypass = sessionStorage.getItem("bypassGate") === "true";
 if (gate) {
-  gate.style.display = hasKey ? "none" : "flex";
+  gate.style.display = (hasKey || bypass) ? "none" : "flex";
 }
 const forgiveBtn = document.getElementById("forgiveBtn");
 function heart(x, y) {
@@ -90,6 +91,8 @@ const linkValue = document.getElementById("linkValue");
 const copyLinkBtn = document.getElementById("copyLinkBtn");
 const closeLinkBtn = document.getElementById("closeLinkBtn");
 const privateLinkBtn = document.getElementById("privateLinkBtn");
+const gatePreviewBtn = document.getElementById("gatePreviewBtn");
+const gateGenerateBtn = document.getElementById("gateGenerateBtn");
 function makeToken() {
   const r = crypto.getRandomValues(new Uint8Array(12));
   return Array.from(r).map(b => b.toString(16).padStart(2, "0")).join("");
@@ -107,6 +110,26 @@ if (privateLinkBtn && linkPanel && linkValue) {
     linkValue.textContent = link;
     linkPanel.hidden = false;
     copyLinkBtn && copyLinkBtn.focus();
+  });
+}
+if (gatePreviewBtn && gate) {
+  gatePreviewBtn.addEventListener("click", () => {
+    sessionStorage.setItem("bypassGate", "true");
+    gate.style.display = "none";
+    toast("Preview enabled");
+  });
+}
+if (gateGenerateBtn) {
+  gateGenerateBtn.addEventListener("click", () => {
+    const link = buildLink();
+    const panel = document.getElementById("linkPanel");
+    const val = document.getElementById("linkValue");
+    const copy = document.getElementById("copyLinkBtn");
+    if (val) val.textContent = link;
+    if (panel) {
+      panel.hidden = false;
+      copy && copy.focus();
+    }
   });
 }
 if (copyLinkBtn && linkValue) {
